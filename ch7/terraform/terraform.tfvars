@@ -1,0 +1,8 @@
+instance_name = "instance1"
+region = "us-ashburn-1"
+tenancy_ocid = "ocid1.tenancy.oc1..aaaaaaaa******"
+user_ocid = "ocid1.user.oc1..aaaaaaaa******"
+fingerprint = "12:34:56:78:90:ab:cd:ef:12:34:56:78:90:ab:cd:ef"
+subnet_ocid = "ocid1.subnet.oc1.iad.aaaaaaaa******"
+private_key_path = "./.oci/oci_api_key.pem"
+os_image_ocid = "ocid1.image.oc1.iad.aaaaaaaa******"
