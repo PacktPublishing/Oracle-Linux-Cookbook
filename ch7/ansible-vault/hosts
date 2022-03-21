@@ -1,0 +1,15 @@
+[host1]
+192.168.2.70
+[host1:vars]
+ansible_user=admin
+ansible_password={{ admin_password }}
+ansible_connection=ssh
+ansible_shell_type=powershell
+
+[host2]
+192.168.2.71
+[host2:vars]
+ansible_user=admin
+ansible_password={{ admin_password }}
+ansible_connection=ssh
+ansible_shell_type=powershell
