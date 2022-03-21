@@ -1,0 +1,17 @@
+admin-email = root@localhost
+ssl-set-cnames = spacewalk
+ssl-set-org = Oracle
+ssl-set-org-unit = OLM
+ssl-set-city = Raleigh
+ssl-set-state = NC
+ssl-set-country = US
+ssl-password = Password1
+ssl-set-email = root@localhost
+ssl-config-sslvhost = Y
+db-backend = postgresql
+db-name = spaceschema
+db-user = spaceuser
+db-password = Password1
+db-host = localhost
+db-port = 5432
+enable-tftp = Y
