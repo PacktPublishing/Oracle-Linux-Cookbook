@@ -1,0 +1,7 @@
+- name: Check how long the computer has been up and running
+  command: uptime
+  register: uptime_output
+  changed_when: False
+
+- debug:
+    var: uptime_output.stdout_lines

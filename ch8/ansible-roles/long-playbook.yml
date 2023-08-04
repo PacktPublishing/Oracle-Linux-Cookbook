@@ -1,0 +1,101 @@
+---
+- name: Applies the standard configuration
+  hosts:
+    - region1
+    - region2
+    - region3
+    
+  tasks:
+    - name: Create standard user and add to specifc groups
+      ansible.builtin.user:
+        name: user1
+        shell: /bin/bash
+        groups: admins,developers
+        append: yes
+
+    - name: Create a 2048-bit SSH key for user 'user1'
+      ansible.builtin.user:
+        name: user1
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+
+    - name: Install Podman and related tools
+      ansible.builtin.dnf:
+        name: '@container-tools:ol8'
+        state: present
+      become: yes
+
+    - name: Configure Podman to use netavark as network backend
+      ansible.builtin.shell:
+        cmd: sed -i 's/network_backend = "cni"/network_backend = "netavark"/g' containers.conf
+        chdir: /usr/share/containers/
+      become: yes
+
+    - name: Run NGINX container image
+      containers.podman.podman_container:
+        name: my-ol9
+        image: ghcr.io/oracle/oraclelinux9-nginx:1.20
+        state: started
+        detach: yes
+        expose:
+          - '80'
+          - '443'
+        publish:
+          - '80:80'
+      become: yes
+
+    - name: Ensure firewalld is enabled and started
+      ansible.builtin.systemd:
+        name: firewalld
+        state: started
+        enabled: true
+      become: yes
+
+    - name: Allow web traffic on port 80
+      ansible.posix.firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+      become: yes
+
+    - name: Check how long the computer has been up and running
+      command: uptime
+      register: uptime_output
+      changed_when: False
+
+    - debug:
+        var: uptime_output.stdout_lines
+
+    - name: Upgrade all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+      become: yes
+      become_method: sudo
+
+    - name: Check if a reboot is required # requires yum-utils
+      ansible.builtin.command: needs-restarting -r
+      register: reg_reboot_required
+      ignore_errors: yes
+      failed_when: false
+      changed_when: reg_reboot_required.rc != 0
+
+    - name: Prompt to reboot server
+      pause:
+        prompt: A reboot is required to complete the update, do you wish to continue (yes/no)?
+      when: reg_reboot_required.rc != 0
+      changed_when: confirm_reboot.user_input | bool
+      notify:
+        - Reboot server
+      register: confirm_reboot
+
+  handlers:
+    - name: Reboot server
+      ansible.builtin.reboot:
+        msg: "Reboot initiated by Ansible after OS update"
+        reboot_timeout: 3600
+        test_command: uptime
+      become: yes
+      become_method: sudo
+

@@ -1,0 +1,27 @@
+---
+- name: Update packages on wireguard server
+  hosts:
+    - region1
+    - region2
+    - region3
+  vars_files:
+    - secrets.yml
+  roles:
+    - role: users
+    - role: containers
+    - role: uptime
+    - role: update_packages
+  tasks:
+    - name: Get hostname
+      debug:
+        msg: '{{ ansible_hostname }}'
+      tags:
+        - always
+  handlers:
+    - name: Reboot server
+      ansible.builtin.reboot:
+        msg: "Reboot initiated by Ansible after OS update"
+        reboot_timeout: 3600
+        test_command: uptime
+      become: yes
+      become_method: sudo
