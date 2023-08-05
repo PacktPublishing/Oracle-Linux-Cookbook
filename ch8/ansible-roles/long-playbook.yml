@@ -6,7 +6,7 @@
     - region3
     
   tasks:
-    - name: Create standard user and add to specifc groups
+    - name: Create standard user and add to specific groups
       ansible.builtin.user:
         name: user1
         shell: /bin/bash
