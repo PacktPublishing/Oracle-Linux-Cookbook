@@ -1,17 +1,29 @@
 ---
 - name: Applies the standard configuration
   hosts:
-    - region1
-    - region2
-    - region3
+    - localhost
+  become: yes
     
   tasks:
+    - name: Ensure groups exists
+      ansible.builtin.group:
+        name: admins
+        state: present
+      become: yes
+
+    - name: Ensure groups exists
+      ansible.builtin.group:
+        name: developers
+        state: present
+      become: yes
+
     - name: Create standard user and add to specific groups
       ansible.builtin.user:
         name: user1
         shell: /bin/bash
         groups: admins,developers
         append: yes
+      become: yes
 
     - name: Create a 2048-bit SSH key for user 'user1'
       ansible.builtin.user:
@@ -19,6 +31,7 @@
         generate_ssh_key: yes
         ssh_key_bits: 2048
         ssh_key_file: .ssh/id_rsa
+      become: yes
 
     - name: Install Podman and related tools
       ansible.builtin.dnf:
