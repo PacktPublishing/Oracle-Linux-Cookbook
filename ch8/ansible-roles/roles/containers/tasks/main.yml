@@ -1,0 +1,24 @@
+- name: Install Podman and related tools
+  ansible.builtin.dnf:
+    name: '@container-tools:ol8'
+    state: present
+  become: yes
+
+- name: Configure Podman to use netavark as network backend
+  ansible.builtin.shell:
+    cmd: sed -i 's/network_backend = "cni"/network_backend = "netavark"/g' containers.conf
+    chdir: /usr/share/containers/
+  become: yes
+
+- name: Run NGINX container image
+  containers.podman.podman_container:
+    name: my-ol9
+    image: ghcr.io/oracle/oraclelinux9-nginx:1.20
+    state: started
+    detach: yes
+    expose:
+      - '80'
+      - '443'
+    publish:
+      - '80:80'
+  become: yes
