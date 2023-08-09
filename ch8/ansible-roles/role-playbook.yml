@@ -1,16 +1,13 @@
 ---
-- name: Update packages on wireguard server
-  hosts:
-    - localhost
+- name: Applies the standard configuration
+  hosts: [ localhost ]
   become: yes
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3
+
   roles:
-    - role: users
-    - role: containers
-    - role: uptime
-    - role: update_packages
-  tasks:
-    - name: Get hostname
-      debug:
-        msg: '{{ ansible_hostname }}'
-      tags:
-        - always
+    - get_hostname
+    - users
+    - containers
+    - uptime
+    - update_packages

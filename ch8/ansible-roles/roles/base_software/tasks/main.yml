@@ -1,0 +1,4 @@
+- name: Install yum-utils required by reboot check
+  ansible.builtin.dnf:
+    name: yum-utils
+    state: latest

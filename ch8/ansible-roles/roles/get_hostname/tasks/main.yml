@@ -1,0 +1,5 @@
+- name: Get hostname
+  debug:
+    msg: '{{ ansible_hostname }}'
+  tags:
+    - always

@@ -2,13 +2,12 @@
   ansible.builtin.dnf:
     name: '@container-tools:ol8'
     state: present
-  become: yes
 
 - name: Configure Podman to use netavark as network backend
-  ansible.builtin.shell:
-    cmd: sed -i 's/network_backend = "cni"/network_backend = "netavark"/g' containers.conf
-    chdir: /usr/share/containers/
-  become: yes
+  ansible.builtin.replace:
+    path: /usr/share/containers/containers.conf
+    regexp: 'network_backend = "cni"'
+    replace: 'network_backend = "netavark"'
 
 - name: Run NGINX container image
   containers.podman.podman_container:
@@ -21,4 +20,15 @@
       - '443'
     publish:
       - '80:80'
-  become: yes
+
+- name: Ensure firewalld is enabled and started
+  ansible.builtin.systemd:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: Allow web traffic on port 80
+  ansible.posix.firewalld:
+    port: 80/tcp
+    permanent: true
+    state: enabled
