@@ -15,7 +15,7 @@ yum install oracle-linux-manager-server-release-el7 -y
 yum-config-manager --enable ol7_optional_latest -y
 
 # Install the following packages for enabling Oracle Linux Manager server to use PostgreSQL
-yum install spacewalk-setup-postgresql spacewalk-postgresql spacecmd spacewalk-utils -y
+yum install spacewalk-schema-2.10.14-1.el7 spacewalk-setup-postgresql spacewalk-postgresql spacecmd spacewalk-utils -y
 
 # Configure Oracle Linux Manager using the answer file
-spacewalk-setup --answer-file=/tmp/answer-file.txt
+spacewalk-setup --non-interactive --answer-file=/tmp/answer-file.txt
