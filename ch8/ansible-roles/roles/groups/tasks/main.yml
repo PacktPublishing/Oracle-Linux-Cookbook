@@ -1,0 +1,9 @@
+- name: Ensure groups exists
+  ansible.builtin.group:
+    name: admins
+    state: present
+
+- name: Ensure groups exists
+  ansible.builtin.group:
+    name: developers
+    state: present

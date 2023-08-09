@@ -1,13 +1,3 @@
-- name: Ensure groups exists
-  ansible.builtin.group:
-    name: admins
-    state: present
-
-- name: Ensure groups exists
-  ansible.builtin.group:
-    name: developers
-    state: present
-
 - name: Create standard user and add to specific groups
   ansible.builtin.user:
     name: user1
