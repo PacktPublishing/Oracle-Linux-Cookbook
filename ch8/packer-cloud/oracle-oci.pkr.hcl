@@ -25,10 +25,10 @@ source "oracle-oci" "ol8u8" {
   image_name          = "Oracle Linux 8.8"
   shape               = "VM.Standard.E4.Flex"
   shape_config {
-    ocpus = 2
+    ocpus         = 2
     memory_in_gbs = 4
   }
-  ssh_username        = "opc"
+  ssh_username = "opc"
 }
 
 build {
