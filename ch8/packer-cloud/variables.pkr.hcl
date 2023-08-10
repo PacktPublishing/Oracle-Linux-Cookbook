@@ -21,7 +21,6 @@ variable "availability_domain" {
 variable "region" {
   type        = string
   description = "An OCI region"
-
 }
 variable "fingerprint" {
   type        = string
