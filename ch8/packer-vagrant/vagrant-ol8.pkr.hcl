@@ -20,12 +20,13 @@ source "virtualbox-iso" "ol8u8" {
   headless         = "true"
   ssh_wait_timeout = "30m"
   http_directory   = "http"
+  nic_type         = "virtio"
   boot_command = [
     "<up><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ol8-ks.cfg setup_swap=yes <enter>"
   ]
   vboxmanage = [
     ["modifyvm", "{{.Name}}", "--memory", "2048"],
-    ["modifyvm", "{{.Name}}", "--cpus", "2"],
+    ["modifyvm", "{{.Name}}", "--cpus", "2"]
   ]
   shutdown_command = "shutdown -P now"
 }
