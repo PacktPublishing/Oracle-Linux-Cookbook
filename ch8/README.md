@@ -1,3 +1,5 @@
 # Chapter 8
 
-## Terraform, Ansible, Packer, Vagrant
+## DevOps Automation Tools
+
+Featuring recipes on: Terraform, Ansible, Packer, Vagrant
