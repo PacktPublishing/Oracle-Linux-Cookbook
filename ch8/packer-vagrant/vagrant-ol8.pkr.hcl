@@ -26,7 +26,8 @@ source "virtualbox-iso" "ol8u8" {
   ]
   vboxmanage = [
     ["modifyvm", "{{.Name}}", "--memory", "2048"],
-    ["modifyvm", "{{.Name}}", "--cpus", "2"]
+    ["modifyvm", "{{.Name}}", "--cpus", "2"],
+    ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"] # Fix for VBox 7. Remove this line if using VirtualBox 6.x
   ]
   shutdown_command = "shutdown -P now"
 }
