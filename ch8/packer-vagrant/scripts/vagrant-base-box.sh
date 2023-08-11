@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Prepare vagrant user
 useradd vagrant
 usermod -aG wheel vagrant
@@ -25,5 +27,5 @@ rm -rf /mnt/iso /root/VBoxGuestAdditions.iso
 dnf remove -y kernel-uek-devel
 dnf clean all
 rm -rf /var/cache/* /usr/share/doc/*
-cat /dev/zero > /tmp/zero.fill
-rm /tmp/zero.fill
+cat /dev/zero &>/dev/null > /tmp/zero.fill
+rm -f /tmp/zero.fill
