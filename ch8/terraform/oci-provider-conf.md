@@ -9,8 +9,8 @@ For each item, start from the [`OCI Console`](https://cloud.oracle.com).
 - user_ocid: `Cloud Console` ➜ `Profile` ➜ [`My Profile`](https://cloud.oracle.com/identity/domains/my-profile) ➜ `OCID`
 - vcn_ocid: `Cloud Console` ➜ `Networking` ➜ [`VCN`](https://cloud.oracle.com/networking/vcns) ➜ *select your VCN* ➜ `OCID`
 - subnet_ocid: `Cloud Console` ➜ `Networking` ➜ [`VCN`](https://cloud.oracle.com/networking/vcns) ➜ *select your VCN* ➜ *select your subnet* ➜ `OCID`
-- [private_key_path](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two) - *Follow the instructions on the link to generate an API Signing Key.*
-- [fingerprint](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#three) - *Follow the instructions on the link to get the upload your Public Key to OCI and get the fingerprint.*
+- [private_key_path](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two) ➜ *Follow the instructions on the link to generate an API Signing Key.*
+- [fingerprint](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#three) ➜ *Follow the instructions on the link to get the upload your Public Key to OCI and get the fingerprint.*
 
 Plug your OCID's for each of these items into the [`terraform.tfvars`](./terraform.tfvars.sample) file.
 
