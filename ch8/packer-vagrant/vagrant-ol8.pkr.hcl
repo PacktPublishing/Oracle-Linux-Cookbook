@@ -1,16 +1,20 @@
 packer {
   required_plugins {
     virtualbox = {
-      version = ">= 0.0.1"
       source  = "github.com/hashicorp/virtualbox"
+      version = "~> 1"
+    }
+    vagrant = {
+      source  = "github.com/hashicorp/vagrant"
+      version = "~> 1"
     }
   }
 }
 
-source "virtualbox-iso" "ol8u5" {
+source "virtualbox-iso" "ol8u8" {
   guest_os_type    = "Oracle_64"
-  iso_url          = "https://yum.oracle.com/ISOS/OracleLinux/OL8/u5/x86_64/OracleLinux-R8-U5-x86_64-dvd.iso"
-  iso_checksum     = "sha256:45939e85542c19dd519aaad7c4dbe84a6fcadfaca348245f92ae4472fc7f50ac"
+  iso_url          = "https://yum.oracle.com/ISOS/OracleLinux/OL8/u8/x86_64/OracleLinux-R8-U8-x86_64-dvd.iso"
+  iso_checksum     = "sha256:cae39116245ff7c3c86d5305d9c11430ce5c4e512987563435ac59c37a082d7e"
   ssh_username     = "root"
   ssh_password     = "vagrant"
   headless         = "true"
@@ -27,7 +31,7 @@ source "virtualbox-iso" "ol8u5" {
 }
 
 build {
-  sources = ["sources.virtualbox-iso.ol8u5"]
+  sources = ["sources.virtualbox-iso.ol8u8"]
 
   provisioner "shell" {
     script = "scripts/vagrant-base-box.sh"
