@@ -1,0 +1,5 @@
+FROM oraclelinux:8
+
+RUN dnf install -y rhn-setup yum-utils && dnf clean all
+
+ENTRYPOINT ["/bin/bash"]

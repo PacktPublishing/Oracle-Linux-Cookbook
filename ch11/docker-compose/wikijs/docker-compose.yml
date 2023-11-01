@@ -1,0 +1,39 @@
+version: "3"
+services:
+
+  wikijs-db:
+    image: mysql
+    container_name: wikijs-db
+    environment:
+      MYSQL_ROOT_PASSWORD: wikijsrocks
+      MYSQL_DATABASE: wiki
+    #logging:
+      #driver: "none"
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+
+  wikijs:
+    image: ghcr.io/requarks/wiki:2
+    container_name: wikijs
+    depends_on:
+      - wikijs-db
+    environment:
+      DB_TYPE: mysql
+      DB_HOST: http://wikijs-db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: wikijsrocks
+      DB_NAME: wiki
+    restart: unless-stopped
+    ports:
+      - "80:3000"
+
+volumes:
+  db-data:

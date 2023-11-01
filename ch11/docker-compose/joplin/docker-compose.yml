@@ -1,0 +1,42 @@
+services:
+  joplin:
+    image: etechonomy/joplin-server:latest
+    container_name: joplin-server
+    environment:
+      # - APP_BASE_URL=https://joplin.${FQDN}
+      - APP_PORT=22300
+      - POSTGRES_PASSWORD=Password123!
+      - POSTGRES_DATABASE=joplin
+      - POSTGRES_USER=joplin
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=joplin-db
+      - DB_CLIENT=pg
+    ports:
+      - 22300:22300
+    networks:
+      - joplin
+    restart: always
+
+  joplin-db:
+    image: postgres:13 # latest as of 11/13/2022
+    container_name: joplin-db
+    environment:
+      - POSTGRES_PASSWORD=Password123!
+      - POSTGRES_USER=joplin
+      - POSTGRES_DB=joplin
+    # ports:
+    #   - 5432:5432
+    networks:
+      - joplin
+    volumes:
+      - joplin-db-data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  joplin-db-data:
+
+networks:
+  joplin:
+    name: joplin
+    # external: true
+    #run: docker network create traefik

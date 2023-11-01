@@ -1,0 +1,43 @@
+services:
+
+  wikijs-db:
+    image: postgres
+    container_name: wikijs-db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: wikijsrocks
+      POSTGRES_USER: postgres
+    # ports:
+    #   - 5432:5432
+    #logging:
+      #driver: "none"
+    restart: unless-stopped
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:rw
+      - wikijs-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+
+  wikijs:
+    image: ghcr.io/requarks/wiki:2
+    container_name: wikijs
+    depends_on:
+      wikijs-db:
+        condition: service_healthy
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: wikijs-db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: wikijsrocks
+      DB_NAME: postgres
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+
+volumes:
+  wikijs-db-data:

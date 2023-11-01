@@ -1,0 +1,14 @@
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    volumes:
+      - $XDG_RUNTIME_DIR/podman/podman.sock:/var/run/docker.sock
+      - portainer:/data
+    ports:
+        - "9000:9000"
+    restart: unless-stopped
+
+volumes:
+  portainer:
+    name: portainer

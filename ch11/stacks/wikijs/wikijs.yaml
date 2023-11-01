@@ -1,0 +1,112 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.2.0
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    io.kubernetes.cri-o.TTY/wikijs: "false"
+    io.kubernetes.cri-o.TTY/wikijs-db: "false"
+    io.podman.annotations.autoremove/wikijs: "FALSE"
+    io.podman.annotations.autoremove/wikijs-db: "FALSE"
+    io.podman.annotations.init/wikijs: "FALSE"
+    io.podman.annotations.init/wikijs-db: "FALSE"
+    io.podman.annotations.privileged/wikijs: "FALSE"
+    io.podman.annotations.privileged/wikijs-db: "FALSE"
+    io.podman.annotations.publish-all/wikijs: "FALSE"
+    io.podman.annotations.publish-all/wikijs-db: "FALSE"
+  creationTimestamp: "2023-04-23T21:26:50Z"
+  labels:
+    app: wikijs-pod
+  name: wikijs-pod
+spec:
+  ports:
+    - name: "3000"
+      nodePort: 30814
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: wikijs-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.TTY/wikijs: "false"
+    io.kubernetes.cri-o.TTY/wikijs-db: "false"
+    io.podman.annotations.autoremove/wikijs: "FALSE"
+    io.podman.annotations.autoremove/wikijs-db: "FALSE"
+    io.podman.annotations.init/wikijs: "FALSE"
+    io.podman.annotations.init/wikijs-db: "FALSE"
+    io.podman.annotations.privileged/wikijs: "FALSE"
+    io.podman.annotations.privileged/wikijs-db: "FALSE"
+    io.podman.annotations.publish-all/wikijs: "FALSE"
+    io.podman.annotations.publish-all/wikijs-db: "FALSE"
+  creationTimestamp: "2023-04-23T21:26:50Z"
+  labels:
+    app: wikijs-pod
+  name: wikijs-pod
+spec:
+  containers:
+    - args:
+        - node
+        - server
+      env:
+        - name: DB_NAME
+          value: postgres
+        - name: DB_TYPE
+          value: postgres
+        - name: DB_HOST
+          value: wikijs-pod-wikijs-db
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: postgres
+        - name: DB_PASS
+          value: wikijsrocks
+      image: ghcr.io/requarks/wiki:2
+      name: wikijs
+      ports:
+        - containerPort: 3000
+          hostPort: 3000
+      securityContext:
+        capabilities:
+          drop:
+            - CAP_MKNOD
+            - CAP_AUDIT_WRITE
+      volumeMounts:
+        - mountPath: /wiki/data/content
+          name: 90e6a4531852aa63d93cdb354d3f8aec38283f12966de7f3eec50ea69796e197-pvc
+    - args:
+        - postgres
+      env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_DB
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: wikijsrocks
+      image: docker.io/library/postgres:latest
+      name: wikijs-db
+      securityContext:
+        capabilities:
+          drop:
+            - CAP_MKNOD
+            - CAP_AUDIT_WRITE
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: wikijs_wikijs-db-data-pvc
+  volumes:
+    - name: 90e6a4531852aa63d93cdb354d3f8aec38283f12966de7f3eec50ea69796e197-pvc
+      persistentVolumeClaim:
+        claimName: 90e6a4531852aa63d93cdb354d3f8aec38283f12966de7f3eec50ea69796e197
+    - name: wikijs_wikijs-db-data-pvc
+      persistentVolumeClaim:
+        claimName: wikijs_wikijs-db-data
