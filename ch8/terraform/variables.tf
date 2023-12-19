@@ -32,7 +32,7 @@ variable "subnet_ocid" {
 variable "os_image_ocid" {
   description = "The OCID for the OS image."
   type        = string
-  default     = "ocid1.image.oc1.iad.aaaaaaaa3xkkahj6owvlxqpfsbn7zfhcz5bovin3dpst7ywmlphnrjgmb4ca"
+  default     = "ocid1.image.oc1.iad.aaaaaaaazi34xyxv6og7qgn3nqvaykfvg5ntkkx7yhlkjzpn4z45l72l53wa"
 }
 
 variable "private_key_path" {
