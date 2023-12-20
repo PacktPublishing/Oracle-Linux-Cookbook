@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     oracle-oci = {
-      version = ">= 1.0.4"
+      version = ">= 1.0.5"
       source  = "github.com/hashicorp/oracle"
     }
   }
@@ -21,7 +21,7 @@ source "oracle-oci" "ol8u8" {
   availability_domain = "${var.availability_domain}"
   region              = "${var.region}"
   instance_name       = "packer-build-${local.timestamp}"
-  base_image_ocid     = "ocid1.image.oc1.iad.aaaaaaaa6nhl3nu644jemg3i26a52mpho3m7emvmm2cqowcwosfurq2wh52q"
+  base_image_ocid     = "ocid1.image.oc1.iad.aaaaaaaazi34xyxv6og7qgn3nqvaykfvg5ntkkx7yhlkjzpn4z45l72l53wa"
   image_name          = "Oracle Linux 8.8"
   shape               = "VM.Standard.E4.Flex"
   shape_config {
